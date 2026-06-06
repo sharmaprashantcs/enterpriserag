@@ -15,7 +15,7 @@ nest-asyncio                # Support for nested async loops in notebooks/stream
 
 # --- GOOGLE CLOUD PLATFORM (GCP) ---
 google-cloud-storage        # GCS for Raw and Processed file storage
-google-cloud-aiplatform     # Vertex AI (Embeddings )
+google-cloud-aiplatform     # Vertex AI (Embeddings & Ranking)
 google-cloud-discoveryengine # Vertex AI Search services
 google-cloud-documentai     # OCR & PDF Parsing via Cloud API (Replaced heavy local parsing)
 cloud-sql-python-connector  # Secure connection to Cloud SQL (Postgres)
@@ -53,3 +53,8 @@ logfire                     # Pydantic Logfire for distributed system tracing
 logfire[fastapi]            # Automatic Logfire instrumentation for FastAPI
 logfire[requests]           # To link Streamlit UI traces to the backend
 loguru                      # Enhanced logging for Python
+
+# --- GUARDRAILS  ---
+nemoguardrails               # NVIDIA NeMo Guardrails for safety and policy enforcement
+langchain-nvidia-ai-endpoints         # Langchain NVIDIA AI Endpoints for LLM inference
+

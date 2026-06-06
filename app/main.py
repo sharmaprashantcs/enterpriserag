@@ -13,12 +13,31 @@ logfire.configure(token=os.getenv("LOGFIRE_TOKEN"))
 from fastapi import FastAPI, Response
 from app.agents.graph import rag_agent
 from app.services.gcp.redis_semantic_cache import check_cache, update_cache
+from app.config import settings
+from langchain_groq import ChatGroq
 
 from pydantic import BaseModel
-from typing import Optional
+from typing import List, Optional
+
+# Initialize the direct Groq chat model
+chat_llm = ChatGroq(
+    api_key=settings.GROQ_API_KEY,
+    model=settings.GROQ_MODEL,
+    temperature=0.2
+)
 
 # Initialize FastAPI
 app = FastAPI(title="Enterprise Agentic RAG API")
+
+
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+
+
+class ChatRequest(BaseModel):
+    messages: List[ChatMessage]
+    thread_id: Optional[str] = "default_user"
 
 class QueryRequest(BaseModel):
     q: str
@@ -99,6 +118,49 @@ def query(request: QueryRequest):
             "question": q,
             "answer": "I apologize, but I encountered an internal error while processing your request. Please try again later.",
             "thought_process": ["Error encountered during execution."],
+            "status": "error",
+            "sources": []
+        }
+
+
+@app.post("/chat")
+def chat(request: ChatRequest):
+    """
+    Direct chat endpoint using Groq through the LLM API.
+    Accepts a list of chat messages and returns a single assistant response.
+    """
+    messages = request.messages
+    thread_id = request.thread_id
+
+    # Build a single prompt from the chat history
+    conversation = "\n".join([
+        f"{msg.role.title()}: {msg.content}" for msg in messages
+    ])
+
+    prompt = f"""
+    You are a helpful and precise enterprise assistant.
+    Continue the conversation based on the chat history below.
+
+    CHAT HISTORY:
+    {conversation}
+
+    Assistant:
+    """
+
+    try:
+        response = chat_llm.invoke(prompt)
+        assistant_text = response.content.strip()
+        return {
+            "thread_id": thread_id,
+            "answer": assistant_text,
+            "status": "success",
+            "sources": []
+        }
+    except Exception as e:
+        logfire.error(f"❌ Groq Chat Failed: {e}")
+        return {
+            "thread_id": thread_id,
+            "answer": "I apologize, but I encountered an error while generating the chat response.",
             "status": "error",
             "sources": []
         }
