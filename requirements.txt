@@ -58,3 +58,5 @@ loguru                      # Enhanced logging for Python
 nemoguardrails               # NVIDIA NeMo Guardrails for safety and policy enforcement
 langchain-nvidia-ai-endpoints         # Langchain NVIDIA AI Endpoints for LLM inference
 
+# LLM Gateway
+portkey_ai
