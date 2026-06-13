@@ -1,6 +1,7 @@
 from langchain_groq import ChatGroq
 from app.agents.state import AgentState
 from app.config import settings
+from app.gateway import get_langchain_llm
 import logfire
 
 # Initialize the Groq model
