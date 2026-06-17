@@ -24,8 +24,9 @@ def search_enterprise_knowledge(query: str, limit: int = 8):
             collection_name=settings.QDRANT_COLLECTION,
             query=query_vector,
             limit=limit,
-            with_payload=True # JSON
+            with_payload=True # JSON paylod. 
         )
+
 
         results = []
         for res in response.points:
