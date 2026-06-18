@@ -60,3 +60,11 @@ langchain-nvidia-ai-endpoints         # Langchain NVIDIA AI Endpoints for LLM in
 
 # LLM Gateway
 portkey_ai
+
+#EVALS
+
+ragas   # RAG spefic evaluation metrics (Faithfulness, Relevance, Hallucination, etc.)
+deepeval
+langfuse    # Live production monitoring , tracing and user feedback for LLMs
+
+sentence-transformers   #embedding
