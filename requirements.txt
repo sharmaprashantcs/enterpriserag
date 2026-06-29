@@ -30,6 +30,7 @@ pg8000                      # Postgres driver for Cloud SQL
 psycopg[binary]             # Required driver for langgraph-checkpoint-postgres
 psycopg_pool                # Connection pooling for high-concurrency memory
 
+
 # --- LANGCHAIN & AGENTIC ORCHESTRATION ---
 langchain                   # Core LLM orchestration
 langgraph                   # State-machine logic for cyclic agent flows
