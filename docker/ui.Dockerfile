@@ -3,6 +3,11 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Install system dependencies required for compiling Python packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -18,5 +23,4 @@ ENV PORT=8501
 EXPOSE 8501
 
 # Start the Streamlit application
-# We use --server.port and --server.address for Cloud Run compatibility
 CMD ["streamlit", "run", "ui/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
