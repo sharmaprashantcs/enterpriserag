@@ -51,7 +51,7 @@ variable "langsmith_api_key" {
 
 variable "langsmith_project" {
   type    = string
-  default = "rag_scale_test"
+  default = "entreprise_rag"
 }
 
 variable "doc_ai_processor_id" {
