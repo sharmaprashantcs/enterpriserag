@@ -91,9 +91,10 @@ resource "google_cloud_run_v2_service" "ingestion" {
 
 # 2. Eventarc Trigger (Watches GCS)
 resource "google_eventarc_trigger" "gcs_trigger" {
+
   name     = "rag-gcs-trigger"
   location = var.region
-  
+
   matching_criteria {
     attribute = "type"
     value     = "google.cloud.storage.object.v1.finalized"
@@ -116,8 +117,7 @@ resource "google_eventarc_trigger" "gcs_trigger" {
   depends_on = [
     google_project_iam_member.ingestion_roles,
     google_project_iam_member.gcs_pubsub_publishing,
-    google_project_iam_member.eventarc_service_agent
+    google_project_iam_member.eventarc_service_agent,
+    google_storage_bucket_iam_member.eventarc_bucket_access
   ]
 }
-
-

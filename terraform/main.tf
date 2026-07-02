@@ -102,6 +102,13 @@ resource "google_storage_bucket" "processed_data" {
   force_destroy = true
 }
 
+resource "google_storage_bucket_iam_member" "eventarc_bucket_access" {
+  bucket = google_storage_bucket.raw_data.name
+  role   = "roles/storage.admin"
+
+  member = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-eventarc.iam.gserviceaccount.com"
+}
+
 # 8. Artifact Registry for Docker Images
 resource "google_artifact_registry_repository" "repo" {
   location      = var.region
